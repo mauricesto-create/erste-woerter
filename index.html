@@ -13,6 +13,8 @@
 <body>
 <main class="app">
 
+  <nav id="crumbs" class="crumbs"></nav>
+
   <!-- Startbildschirm -->
   <section id="screen-start" class="screen active">
     <h1 class="logo">📚 ErsteWörter</h1>
@@ -37,7 +39,7 @@
       <div id="feedback" class="feedback" aria-hidden="true"></div>
     </div>
     <div id="choices" class="choices"></div>
-    <button id="quit-btn" class="text-link">✕ Beenden</button>
+    <button id="quit-btn" class="text-link">← Zurück</button>
   </section>
 
   <!-- Gewonnen -->
@@ -49,6 +51,7 @@
   </section>
 
 </main>
+<script src="store.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

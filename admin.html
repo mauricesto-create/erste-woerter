@@ -12,6 +12,12 @@
 <body>
 <main class="app admin">
 
+  <nav class="crumbs">
+    <a href="index.html">🏠 Start</a>
+    <span class="sep">›</span>
+    <span class="here">Verwalten</span>
+  </nav>
+
   <!-- Login -->
   <section id="login" class="screen active">
     <h1 class="logo">🔒 Verwalten</h1>
@@ -27,6 +33,7 @@
     <h1 class="logo">⚙️ Wörter verwalten</h1>
 
     <div class="card">
+      <h2 id="form-title" class="form-title">Neues Wort</h2>
       <label class="field">
         <span>Wort</span>
         <input id="f-wort" class="text-input" type="text" placeholder="z. B. KATZE" autocomplete="off">
@@ -36,16 +43,23 @@
         <input id="f-kat" class="text-input" type="text" placeholder="z. B. Tiere" list="kat-list" autocomplete="off">
         <datalist id="kat-list"></datalist>
       </label>
-      <label class="field">
+      <div class="field">
         <span>Bild (Foto oder Grafik)</span>
-        <input id="f-bild" class="text-input" type="file" accept="image/*">
-      </label>
+        <div class="file-pick">
+          <input id="f-bild" type="file" accept="image/*" hidden>
+          <button type="button" id="f-bild-btn" class="file-btn">📷 Bild wählen</button>
+          <span id="f-bild-name" class="file-name">Keine Datei gewählt</span>
+        </div>
+      </div>
       <img id="preview" class="preview" alt="Vorschau">
-      <button id="add-btn" class="big-btn start">➕ Hinzufügen</button>
+      <div class="form-actions">
+        <button id="add-btn" class="big-btn start">➕ Hinzufügen</button>
+        <button id="cancel-btn" class="big-btn ghost" hidden>Abbrechen</button>
+      </div>
       <p id="form-msg" class="hint"></p>
     </div>
 
-    <h2 class="label">Eigene Wörter (<span id="count">0</span>)</h2>
+    <h2 class="label">Alle Wörter (<span id="count">0</span>)</h2>
     <div id="list" class="word-list"></div>
 
     <div class="card tools">
@@ -53,12 +67,14 @@
       <label class="big-btn ghost file-label">⬆️ Importieren
         <input id="import-input" type="file" accept="application/json" hidden>
       </label>
+      <button id="reset-btn" class="big-btn ghost">♻️ Zurücksetzen</button>
     </div>
 
     <a class="admin-link" href="index.html">← Zurück zum Spiel</a>
   </section>
 
 </main>
+<script src="store.js"></script>
 <script src="admin.js"></script>
 </body>
 </html>

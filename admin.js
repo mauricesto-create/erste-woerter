@@ -1,4 +1,5 @@
 // ErsteWörter – Verwaltung (lokal, kein Backend)
+// Alle Wörter (auch die Grundwörter) sind bearbeitbar: Wort, Kategorie, Bild.
 (function () {
   "use strict";
 
@@ -6,12 +7,12 @@
   var PIN = "1234";
   // =============================
 
-  var STORAGE_KEY = "ew_custom";
   function $(id) { return document.getElementById(id); }
 
   var login = $("login");
   var panel = $("panel");
-  var imgData = "";
+  var imgData = "";       // neu gewähltes Bild (Data-URI) oder ""
+  var editId = null;      // wenn gesetzt: vorhandenes Wort wird bearbeitet
 
   // ---------- Login ----------
   $("login-btn").addEventListener("click", tryLogin);
@@ -22,23 +23,15 @@
     if ($("pin").value === PIN) {
       login.classList.remove("active");
       panel.classList.add("active");
-      render();
+      EWStore.ensure().then(render);
     } else {
       $("login-error").textContent = "Falsche PIN.";
       $("pin").value = "";
     }
   }
 
-  // ---------- Speicher ----------
-  function getCustom() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"); }
-    catch (e) { return []; }
-  }
-  function setCustom(arr) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
-  }
-
-  // ---------- Bildauswahl ----------
+  // ---------- Bildauswahl (gestylter Knopf) ----------
+  $("f-bild-btn").addEventListener("click", function () { $("f-bild").click(); });
   $("f-bild").addEventListener("change", function (e) {
     var file = e.target.files[0];
     if (!file) return;
@@ -47,50 +40,96 @@
       imgData = reader.result;
       $("preview").src = imgData;
       $("preview").classList.add("show");
+      $("f-bild-name").textContent = file.name;
     };
     reader.readAsDataURL(file);
   });
 
-  // ---------- Hinzufügen ----------
+  // ---------- Hinzufügen / Speichern ----------
   $("add-btn").addEventListener("click", function () {
     var wort = $("f-wort").value.trim().toUpperCase();
-    var kat = $("f-kat").value.trim() || "Eigene";
+    var kat = $("f-kat").value.trim();
     if (!wort) { msg("Bitte ein Wort eingeben."); return; }
-    if (!imgData) { msg("Bitte ein Bild auswählen."); return; }
 
-    var arr = getCustom();
-    arr.push({ wort: wort, bild: imgData, kategorie: kat });
-    setCustom(arr);
+    var list = EWStore.get() || [];
 
+    if (editId) {
+      // bestehendes Wort bearbeiten
+      for (var i = 0; i < list.length; i++) {
+        if (list[i].id === editId) {
+          list[i].wort = wort;
+          list[i].kategorie = kat;
+          if (imgData) list[i].bild = imgData; // Bild nur ersetzen, wenn neu gewählt
+          break;
+        }
+      }
+      EWStore.set(list);
+      msg("„" + wort + "“ gespeichert ✓");
+    } else {
+      // neues Wort
+      if (!imgData) { msg("Bitte ein Bild auswählen."); return; }
+      list.push({ id: EWStore.uid(), wort: wort, bild: imgData, kategorie: kat });
+      EWStore.set(list);
+      msg("„" + wort + "“ hinzugefügt ✓");
+    }
+    resetForm();
+    render();
+  });
+
+  $("cancel-btn").addEventListener("click", resetForm);
+
+  function startEdit(id) {
+    var list = EWStore.get() || [];
+    var item = null;
+    for (var i = 0; i < list.length; i++) { if (list[i].id === id) { item = list[i]; break; } }
+    if (!item) return;
+    editId = id;
+    imgData = "";
+    $("f-wort").value = item.wort;
+    $("f-kat").value = item.kategorie || "";
+    $("preview").src = item.bild;
+    $("preview").classList.add("show");
+    $("f-bild-name").textContent = "Aktuelles Bild (zum Ändern neu wählen)";
+    $("form-title").textContent = "Wort bearbeiten";
+    $("add-btn").textContent = "💾 Speichern";
+    $("cancel-btn").hidden = false;
+    msg("");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function resetForm() {
+    editId = null;
+    imgData = "";
     $("f-wort").value = "";
     $("f-kat").value = "";
     $("f-bild").value = "";
-    imgData = "";
     $("preview").src = "";
     $("preview").classList.remove("show");
-    msg("„" + wort + "“ hinzugefügt ✓");
-    render();
-  });
+    $("f-bild-name").textContent = "Keine Datei gewählt";
+    $("form-title").textContent = "Neues Wort";
+    $("add-btn").textContent = "➕ Hinzufügen";
+    $("cancel-btn").hidden = true;
+  }
 
   function msg(t) { $("form-msg").textContent = t; }
 
   // ---------- Liste rendern ----------
   function render() {
-    var arr = getCustom();
-    $("count").textContent = arr.length;
+    var list = EWStore.get() || [];
+    $("count").textContent = list.length;
 
-    var list = $("list");
-    list.innerHTML = "";
-    if (arr.length === 0) {
+    var box = $("list");
+    box.innerHTML = "";
+    if (list.length === 0) {
       var p = document.createElement("p");
       p.className = "empty";
-      p.textContent = "Noch keine eigenen Wörter.";
-      list.appendChild(p);
+      p.textContent = "Noch keine Wörter.";
+      box.appendChild(p);
     }
 
-    arr.forEach(function (w, index) {
+    list.forEach(function (w) {
       var row = document.createElement("div");
-      row.className = "word-row";
+      row.className = "word-row" + (w.id === editId ? " editing" : "");
 
       var img = document.createElement("img");
       img.src = w.bild; img.className = "thumb"; img.alt = w.wort;
@@ -101,28 +140,36 @@
       var cat = document.createElement("span");
       cat.className = "word-cat"; cat.textContent = w.kategorie || "";
 
+      var actions = document.createElement("div");
+      actions.className = "row-actions";
+
+      var edit = document.createElement("button");
+      edit.className = "edit-btn"; edit.textContent = "✏️"; edit.title = "Bearbeiten";
+      edit.addEventListener("click", function () { startEdit(w.id); });
+
       var del = document.createElement("button");
-      del.className = "del-btn"; del.textContent = "🗑️";
-      del.title = "Löschen";
+      del.className = "del-btn"; del.textContent = "🗑️"; del.title = "Löschen";
       del.addEventListener("click", function () {
-        var a = getCustom();
-        a.splice(index, 1);
-        setCustom(a);
+        var arr = (EWStore.get() || []).filter(function (x) { return x.id !== w.id; });
+        EWStore.set(arr);
+        if (editId === w.id) resetForm();
         render();
       });
 
+      actions.appendChild(edit);
+      actions.appendChild(del);
       row.appendChild(img);
       row.appendChild(name);
       row.appendChild(cat);
-      row.appendChild(del);
-      list.appendChild(row);
+      row.appendChild(actions);
+      box.appendChild(row);
     });
 
     // Kategorie-Vorschläge
     var seen = {};
     var dl = $("kat-list");
     dl.innerHTML = "";
-    arr.forEach(function (w) {
+    list.forEach(function (w) {
       if (w.kategorie && !seen[w.kategorie]) {
         seen[w.kategorie] = true;
         var o = document.createElement("option");
@@ -134,7 +181,8 @@
 
   // ---------- Export ----------
   $("export-btn").addEventListener("click", function () {
-    var blob = new Blob([JSON.stringify(getCustom(), null, 2)], { type: "application/json" });
+    var data = JSON.stringify(EWStore.get() || [], null, 2);
+    var blob = new Blob([data], { type: "application/json" });
     var url = URL.createObjectURL(blob);
     var a = document.createElement("a");
     a.href = url;
@@ -152,7 +200,8 @@
       try {
         var data = JSON.parse(reader.result);
         if (Array.isArray(data)) {
-          setCustom(data);
+          EWStore.set(EWStore.normalize(data));
+          resetForm();
           render();
           msg("Importiert ✓");
         } else {
@@ -164,5 +213,15 @@
     };
     reader.readAsText(file);
     e.target.value = "";
+  });
+
+  // ---------- Zurücksetzen ----------
+  $("reset-btn").addEventListener("click", function () {
+    if (!window.confirm("Alle Wörter auf die Grundwörter zurücksetzen? Deine eigenen Änderungen gehen verloren.")) return;
+    EWStore.reset().then(function () {
+      resetForm();
+      render();
+      msg("Auf Grundwörter zurückgesetzt ✓");
+    });
   });
 })();

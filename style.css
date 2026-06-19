@@ -26,6 +26,24 @@ body{
   padding:18px;
 }
 
+/* ---------- Breadcrumb ---------- */
+.crumbs{
+  width:100%;
+  max-width:680px;
+  display:flex;
+  gap:8px;
+  align-items:center;
+  flex-wrap:wrap;
+  font-weight:800;
+  font-size:16px;
+  color:#a2917a;
+  padding:2px 2px 6px;
+}
+.crumbs a{color:#3a9ad9;text-decoration:none;}
+.crumbs a:hover{text-decoration:underline;}
+.crumbs .sep{color:#cbb994;}
+.crumbs .here{color:var(--ink);}
+
 /* ---------- Screens ---------- */
 .screen{
   display:none;
@@ -212,3 +230,28 @@ body{
 .tools .big-btn{font-size:18px;padding:14px 20px;}
 .file-label{display:inline-flex;align-items:center;cursor:pointer;}
 .empty{color:#a2917a;font-weight:700;}
+
+/* Formular-Kopf + Aktionen */
+.form-title{margin:0 0 2px;font-size:22px;text-align:left;}
+.form-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.form-actions .big-btn{font-size:20px;padding:14px 22px;}
+
+/* Datei-Auswahl im Webseiten-Stil */
+.file-pick{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.file-btn{
+  border:4px solid var(--ink);
+  border-radius:14px;
+  background:#fff;
+  font:inherit;font-weight:800;font-size:18px;
+  padding:10px 16px;
+  cursor:pointer;
+  box-shadow:0 4px 0 rgba(0,0,0,.12);
+  transition:transform .06s, box-shadow .06s;
+}
+.file-btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.12);}
+.file-name{font-weight:700;color:#8a775c;font-size:15px;}
+
+/* Liste: Bearbeiten-Knopf + markierte Zeile */
+.row-actions{display:flex;gap:6px;flex:0 0 auto;}
+.edit-btn{border:none;background:#E3EEFF;border-radius:12px;padding:8px 12px;font-size:20px;cursor:pointer;}
+.word-row.editing{border-color:#3a9ad9;background:#F0F7FF;}

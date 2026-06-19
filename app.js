@@ -4,13 +4,12 @@
 (function () {
   "use strict";
 
-  var STORAGE_KEY = "ew_custom";
-
   var screens = {
     start: document.getElementById("screen-start"),
     game: document.getElementById("screen-game"),
     win: document.getElementById("screen-win"),
   };
+  var crumbs = document.getElementById("crumbs");
   var countButtons = document.getElementById("count-buttons");
   var startBtn = document.getElementById("start-btn");
   var startHint = document.getElementById("start-hint");
@@ -19,14 +18,16 @@
   var progressEl = document.getElementById("progress");
   var feedbackEl = document.getElementById("feedback");
 
-  var pool = [];        // alle verfügbaren Wörter (Basis + eigene)
-  var roundWords = [];  // die N angezeigten Wörter (feste Reihenfolge der Buttons)
-  var queue = [];       // Reihenfolge, in der die Bilder kommen
-  var current = 0;      // Index aktuelles Bild in queue
-  var filled = 0;       // wie viele Wörter schon gelöst
-  var roundSize = 4;    // gewählte Anzahl Wörter
-  var locked = false;   // sperrt Eingabe während Übergang
-  var colorMode = "color"; // "color" = farbige Buttons, "white" = weiße Buttons
+  var pool = [];        // alle Wörter (aus dem Speicher)
+  var roundWords = [];  // die N angezeigten Wörter
+  var queue = [];       // Reihenfolge der Bilder
+  var current = 0;
+  var filled = 0;
+  var roundSize = 4;
+  var locked = false;
+  var colorMode = "color";     // "color" | "white"
+  var hasRound = false;        // ist eine Runde aktiv?
+  var finished = false;        // Runde gewonnen?
   // Spalten pro Reihe je nach Wortanzahl (saubere Reihen)
   var COLS = { 4: 2, 5: 3, 6: 3, 7: 4, 8: 4, 9: 3, 10: 5 };
 
@@ -55,23 +56,51 @@
       u.rate = 0.9;
       window.speechSynthesis.cancel();
       window.speechSynthesis.speak(u);
-    } catch (e) { /* Sprachausgabe nicht verfügbar – ignorieren */ }
+    } catch (e) { /* Sprachausgabe nicht verfügbar */ }
   }
 
-  // ---------- Daten laden ----------
-  function loadPool() {
-    return fetch("woerter.json", { cache: "no-store" })
-      .then(function (r) { return r.json(); })
-      .catch(function () { return []; })
-      .then(function (base) {
-        var custom = [];
-        try { custom = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"); } catch (e) {}
-        pool = base.concat(custom).filter(function (w) {
-          return w && w.wort && w.bild;
-        });
-        return pool;
-      });
+  // ---------- Navigation / Unter-URLs (Hash) ----------
+  function viewFromHash() {
+    var h = (location.hash || "").replace("#", "");
+    return h === "spiel" ? "game" : h === "fertig" ? "win" : "start";
   }
+
+  function updateCrumbs(view) {
+    if (view === "game") {
+      crumbs.innerHTML = '<a href="#start">🏠 Start</a> <span class="sep">›</span> <span class="here">Spiel</span>';
+    } else if (view === "win") {
+      crumbs.innerHTML = '<a href="#start">🏠 Start</a> <span class="sep">›</span> <span class="here">🎉 Geschafft</span>';
+    } else {
+      crumbs.innerHTML = '<span class="here">🏠 Start</span>';
+    }
+  }
+
+  function renderRoute() {
+    var view = viewFromHash();
+    // Schutz: Spiel/Gewonnen nur bei passendem Zustand, sonst zurück zum Start
+    if (view === "game" && !(hasRound && !finished)) view = "start";
+    if (view === "win" && !finished) view = "start";
+    if (view === "start") {
+      hasRound = false;
+      finished = false;
+      if (location.hash && location.hash !== "#start") {
+        history.replaceState(null, "", "#start");
+      }
+    }
+    show(view);
+    updateCrumbs(view);
+  }
+
+  function navigate(view) {
+    var hash = view === "game" ? "spiel" : view === "win" ? "fertig" : "start";
+    if ((location.hash || "#start").replace("#", "") === hash) {
+      renderRoute();
+    } else {
+      location.hash = hash; // löst hashchange -> renderRoute
+    }
+  }
+
+  window.addEventListener("hashchange", renderRoute);
 
   // ---------- Startbildschirm ----------
   function buildCountButtons() {
@@ -120,15 +149,26 @@
 
   // ---------- Spiel ----------
   function startRound() {
-    roundWords = shuffle(pool).slice(0, roundSize); // N angezeigte Wörter
-    queue = shuffle(roundWords.slice());            // Reihenfolge der Bilder
+    roundWords = shuffle(pool).slice(0, roundSize);
+    queue = shuffle(roundWords.slice());
     current = 0;
     filled = 0;
     locked = false;
-    show("game");
+    finished = false;
     renderChoices();
     renderProgress();
     showImage();
+    hasRound = true;
+    navigate("game");
+  }
+
+  function renderProgress() {
+    progressEl.innerHTML = "";
+    for (var i = 0; i < roundSize; i++) {
+      var dot = document.createElement("span");
+      dot.className = "dot" + (i < filled ? " done" : "");
+      progressEl.appendChild(dot);
+    }
   }
 
   function renderChoices() {
@@ -144,15 +184,6 @@
       b.addEventListener("click", function () { onChoose(w.wort, b); });
       choicesEl.appendChild(b);
     });
-  }
-
-  function renderProgress() {
-    progressEl.innerHTML = "";
-    for (var i = 0; i < roundSize; i++) {
-      var dot = document.createElement("span");
-      dot.className = "dot" + (i < filled ? " done" : "");
-      progressEl.appendChild(dot);
-    }
   }
 
   function showImage() {
@@ -171,7 +202,7 @@
     if (word === correct) {
       locked = true;
       btn.classList.remove("wrong");
-      btn.classList.add("done");   // Wort ist "gefüllt"
+      btn.classList.add("done");
       btn.disabled = true;
       feedbackEl.textContent = "✓";
       feedbackEl.className = "feedback ok";
@@ -181,14 +212,14 @@
       setTimeout(function () {
         current++;
         if (current >= roundSize) {
-          show("win");
+          finished = true;
+          navigate("win");
           speak("Super gemacht!");
         } else {
           showImage();
         }
       }, 950);
     } else {
-      // falsch: rotes X + kurzes Wackeln; Wort bleibt wählbar (gehört zu einem späteren Bild)
       feedbackEl.textContent = "✗";
       feedbackEl.className = "feedback no";
       btn.classList.add("wrong");
@@ -199,13 +230,14 @@
   // ---------- Verdrahtung ----------
   startBtn.addEventListener("click", startRound);
   document.getElementById("play-again").addEventListener("click", startRound);
-  document.getElementById("back-menu").addEventListener("click", function () { show("start"); });
-  document.getElementById("quit-btn").addEventListener("click", function () { show("start"); });
+  document.getElementById("back-menu").addEventListener("click", function () { navigate("start"); });
+  document.getElementById("quit-btn").addEventListener("click", function () { navigate("start"); });
 
   try { colorMode = localStorage.getItem("ew_color") || "color"; } catch (e) {}
   buildColorButtons();
-  loadPool().then(function () {
+  EWStore.ensure().then(function (list) {
+    pool = list;
     buildCountButtons();
-    show("start");
+    renderRoute(); // Ansicht aus dem Hash herstellen (normalerweise Start)
   });
 })();
