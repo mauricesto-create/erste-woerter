@@ -20,39 +20,41 @@ Pro Runde sind **4 bis 10 Bilder** wählbar. Reine HTML/CSS/JavaScript-App,
 | `admin.html` | Pflege-Seite (PIN-geschützt): Wörter + Bilder hinzufügen |
 | `app.js` | Spiel-Logik |
 | `admin.js` | Logik der Pflege-Seite |
+| `store.js` | Gemeinsamer Wort-Speicher (localStorage), von Spiel + Pflege genutzt |
 | `style.css` | Aussehen (kindgerecht, große Buttons) |
-| `woerter.json` | Die Grundwörter |
+| `woerter.json` | Die Grundwörter (Startbestand) |
 | `/bilder` | Die SVG-Bilder zu den Grundwörtern |
 
 ---
 
-## Ein Wort hinzufügen
+## Wörter verwalten (hinzufügen / bearbeiten / löschen)
 
-Es gibt **zwei Wege**:
+Über die Pflege-Seite lassen sich **alle** Wörter bearbeiten – auch die Grundwörter,
+inkl. Bild. Es wird **nichts hochgeladen**, alles liegt im Browser des Geräts
+(localStorage). Damit hat jedes Gerät seine eigene Wortliste.
 
-### A) Bequem über die Pflege-Seite (empfohlen, kein Datei-Gefummel)
+1. `admin.html` öffnen (oder im Spiel unten **„⚙️ Wörter verwalten"**) und **PIN** eingeben (Standard: `1234`).
+2. **Hinzufügen:** Wort eintippen, Kategorie wählen, **„📷 Bild wählen"** (Foto/JPG/PNG/SVG), dann **„➕ Hinzufügen"**.
+3. **Bearbeiten:** in der Liste auf **✏️** tippen – Wort/Kategorie ändern, optional ein neues Bild wählen, **„💾 Speichern"**. Ohne neues Bild bleibt das alte erhalten.
+4. **Löschen:** in der Liste auf **🗑️** tippen.
 
-1. `admin.html` öffnen und die **PIN** eingeben (Standard: `1234`).
-2. **Wort** eintippen, **Kategorie** wählen, **Bild hochladen** (Foto/JPG/PNG/SVG).
-3. Auf **„➕ Hinzufügen"** tippen.
+Neue/geänderte Wörter erscheinen **sofort** im Spiel (auf diesem Gerät).
 
-Das neue Wort erscheint **sofort** im Spiel – auf **diesem Gerät**.
-Die Daten liegen im Browser (localStorage), es wird **nichts hochgeladen**.
+> 💾 **Sichern / Übertragen:** **„⬇️ Sichern"** lädt die komplette Wortliste als
+> `meine-woerter.json` herunter (Backup oder Gerätewechsel). Auf dem anderen Gerät
+> über **„⬆️ Importieren"** einlesen.
+>
+> ♻️ **Zurücksetzen** stellt wieder die Grundwörter aus `woerter.json` her
+> (verwirft lokale Änderungen).
 
-> 💾 **Sichern:** Mit **„⬇️ Sichern"** lädst du deine eigenen Wörter als Datei
-> (`meine-woerter.json`) herunter – als Backup oder um sie auf ein anderes Gerät
-> zu bringen. Dort über **„⬆️ Importieren"** wieder einlesen.
+### Grundbestand fest ändern (für alle Geräte, via GitHub)
 
-### B) Fest in die App einbauen (für alle Geräte, via GitHub)
+Die **Startwörter** (die jedes neue Gerät zuerst sieht) stehen in `woerter.json`:
+Bild nach `/bilder` legen und einen Eintrag ergänzen, dann committen/pushen:
 
-So werden Wörter Teil der App für **jeden** Besucher:
-
-1. Bild in den Ordner `/bilder` legen (z. B. `bilder/katze.svg` oder `bilder/katze.jpg`).
-2. In `woerter.json` einen Eintrag ergänzen:
-   ```json
-   { "wort": "KATZE", "bild": "bilder/katze.jpg", "kategorie": "Tiere" }
-   ```
-3. Änderungen committen und pushen – GitHub Pages aktualisiert sich automatisch.
+```json
+{ "wort": "KATZE", "bild": "bilder/katze.jpg", "kategorie": "Tiere" }
+```
 
 > **Tipp:** Mindestens **4** Wörter müssen vorhanden sein, damit gespielt werden kann
 > (es braucht immer 1 richtige + 3 falsche Auswahlmöglichkeiten).
