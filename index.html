@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFF7E6">
+  <title>ErsteWörter</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="app">
+
+  <!-- Startbildschirm -->
+  <section id="screen-start" class="screen active">
+    <h1 class="logo">📚 ErsteWörter</h1>
+    <p class="subtitle">Welches Wort gehört zum Bild?</p>
+    <p class="label">Wie viele Wörter?</p>
+    <div id="count-buttons" class="count-buttons"></div>
+    <p class="label">Wörter anzeigen</p>
+    <div id="color-buttons" class="opt-buttons">
+      <button class="opt-btn" data-mode="color">🌈 Farbig</button>
+      <button class="opt-btn" data-mode="white">⬜ Weiß</button>
+    </div>
+    <p id="start-hint" class="hint"></p>
+    <button id="start-btn" class="big-btn start">Los geht's! ▶</button>
+    <a class="admin-link" href="admin.html">⚙️ Wörter verwalten</a>
+  </section>
+
+  <!-- Spielbildschirm -->
+  <section id="screen-game" class="screen">
+    <div id="progress" class="progress" aria-label="Fortschritt"></div>
+    <div class="image-wrap">
+      <img id="q-image" class="q-image" alt="">
+      <div id="feedback" class="feedback" aria-hidden="true"></div>
+    </div>
+    <div id="choices" class="choices"></div>
+    <button id="quit-btn" class="text-link">✕ Beenden</button>
+  </section>
+
+  <!-- Gewonnen -->
+  <section id="screen-win" class="screen">
+    <div class="win-emoji">🎉</div>
+    <h2 class="win-title">Super gemacht!</h2>
+    <button id="play-again" class="big-btn start">Nochmal! 🔁</button>
+    <button id="back-menu" class="big-btn ghost">Menü</button>
+  </section>
+
+</main>
+<script src="app.js"></script>
+</body>
+</html>

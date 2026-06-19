@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" role="img" aria-label="Ball">
+  <rect width="300" height="300" fill="#FFFFFF"/>
+  <defs><clipPath id="ballclip"><circle cx="150" cy="150" r="106"/></clipPath></defs>
+  <g clip-path="url(#ballclip)">
+    <rect x="40" y="40" width="220" height="220" fill="#FFD23F"/>
+    <path d="M150 40 Q-70 150 150 260 Q40 150 150 40 Z" fill="#FF5252"/>
+    <path d="M150 40 Q40 150 150 260 Q150 150 150 40 Z" fill="#FFD23F"/>
+    <path d="M150 40 Q150 150 150 260 Q260 150 150 40 Z" fill="#4FC3F7"/>
+    <path d="M150 40 Q260 150 150 260 Q370 150 150 40 Z" fill="#66BB6A"/>
+  </g>
+  <circle cx="150" cy="150" r="106" fill="none" stroke="#1B1B1B" stroke-width="8"/>
+  <g fill="none" stroke="#1B1B1B" stroke-width="5" stroke-linecap="round">
+    <path d="M150 44 Q44 150 150 256"/>
+    <path d="M150 44 Q150 150 150 256"/>
+    <path d="M150 44 Q256 150 150 256"/>
+  </g>
+  <circle cx="112" cy="112" r="14" fill="#FFFFFF" opacity="0.5"/>
+</svg>

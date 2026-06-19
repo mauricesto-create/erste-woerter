@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" role="img" aria-label="Fisch">
+  <rect width="300" height="300" fill="#FFFFFF"/>
+  <path d="M242 150 L292 112 L278 150 L292 188 Z" fill="#FF9F40" stroke="#1B1B1B" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M150 108 Q165 80 192 96 Q175 104 168 116 Z" fill="#FF8520" stroke="#1B1B1B" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M150 192 Q165 214 188 202 Q172 196 166 186 Z" fill="#FF8520" stroke="#1B1B1B" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M55 150 Q110 92 195 108 Q242 118 248 150 Q242 182 195 192 Q110 208 55 150 Z" fill="#FF9F40" stroke="#1B1B1B" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M118 118 Q106 150 118 182" fill="none" stroke="#1B1B1B" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="92" cy="138" r="11" fill="#FFFFFF" stroke="#1B1B1B" stroke-width="4"/>
+  <circle cx="92" cy="138" r="5" fill="#1B1B1B"/>
+  <path d="M58 158 Q70 166 82 160" fill="none" stroke="#1B1B1B" stroke-width="5" stroke-linecap="round"/>
+</svg>

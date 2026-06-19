@@ -1,0 +1,10 @@
+[
+  { "wort": "BALL",   "bild": "bilder/ball.svg",   "kategorie": "Spielzeug" },
+  { "wort": "BLUME",  "bild": "bilder/blume.svg",  "kategorie": "Natur" },
+  { "wort": "BRILLE", "bild": "bilder/brille.svg", "kategorie": "Dinge" },
+  { "wort": "HUND",   "bild": "bilder/hund.svg",   "kategorie": "Tiere" },
+  { "wort": "AUTO",   "bild": "bilder/auto.svg",   "kategorie": "Fahrzeuge" },
+  { "wort": "HAUS",   "bild": "bilder/haus.svg",   "kategorie": "Dinge" },
+  { "wort": "SONNE",  "bild": "bilder/sonne.svg",  "kategorie": "Natur" },
+  { "wort": "FISCH",  "bild": "bilder/fisch.svg",  "kategorie": "Tiere" }
+]

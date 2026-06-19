@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" role="img" aria-label="Brille">
+  <rect width="300" height="300" fill="#FFFFFF"/>
+  <g fill="none" stroke="#1B1B1B" stroke-width="10" stroke-linecap="round">
+    <path d="M44 144 Q22 138 16 120"/>
+    <path d="M256 144 Q278 138 284 120"/>
+    <path d="M144 142 Q150 126 156 142"/>
+  </g>
+  <circle cx="92" cy="150" r="52" fill="#7FC8FF" stroke="#1B1B1B" stroke-width="10"/>
+  <circle cx="208" cy="150" r="52" fill="#7FC8FF" stroke="#1B1B1B" stroke-width="10"/>
+  <circle cx="76" cy="134" r="12" fill="#FFFFFF" opacity="0.6"/>
+  <circle cx="192" cy="134" r="12" fill="#FFFFFF" opacity="0.6"/>
+</svg>

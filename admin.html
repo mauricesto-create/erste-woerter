@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFF7E6">
+  <title>ErsteWörter – Verwalten</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="app admin">
+
+  <!-- Login -->
+  <section id="login" class="screen active">
+    <h1 class="logo">🔒 Verwalten</h1>
+    <p class="subtitle">Bitte PIN eingeben</p>
+    <input id="pin" class="text-input" type="password" inputmode="numeric" placeholder="PIN" style="max-width:220px;text-align:center;">
+    <p id="login-error" class="hint"></p>
+    <button id="login-btn" class="big-btn start">Anmelden</button>
+    <a class="admin-link" href="index.html">← Zurück zum Spiel</a>
+  </section>
+
+  <!-- Verwaltung -->
+  <section id="panel" class="screen">
+    <h1 class="logo">⚙️ Wörter verwalten</h1>
+
+    <div class="card">
+      <label class="field">
+        <span>Wort</span>
+        <input id="f-wort" class="text-input" type="text" placeholder="z. B. KATZE" autocomplete="off">
+      </label>
+      <label class="field">
+        <span>Kategorie</span>
+        <input id="f-kat" class="text-input" type="text" placeholder="z. B. Tiere" list="kat-list" autocomplete="off">
+        <datalist id="kat-list"></datalist>
+      </label>
+      <label class="field">
+        <span>Bild (Foto oder Grafik)</span>
+        <input id="f-bild" class="text-input" type="file" accept="image/*">
+      </label>
+      <img id="preview" class="preview" alt="Vorschau">
+      <button id="add-btn" class="big-btn start">➕ Hinzufügen</button>
+      <p id="form-msg" class="hint"></p>
+    </div>
+
+    <h2 class="label">Eigene Wörter (<span id="count">0</span>)</h2>
+    <div id="list" class="word-list"></div>
+
+    <div class="card tools">
+      <button id="export-btn" class="big-btn ghost">⬇️ Sichern</button>
+      <label class="big-btn ghost file-label">⬆️ Importieren
+        <input id="import-input" type="file" accept="application/json" hidden>
+      </label>
+    </div>
+
+    <a class="admin-link" href="index.html">← Zurück zum Spiel</a>
+  </section>
+
+</main>
+<script src="admin.js"></script>
+</body>
+</html>

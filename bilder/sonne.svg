@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" role="img" aria-label="Sonne">
+  <rect width="300" height="300" fill="#FFFFFF"/>
+  <g stroke="#FBB615" stroke-width="14" stroke-linecap="round">
+    <path d="M230 150 L266 150"/>
+    <path d="M207 207 L232 232"/>
+    <path d="M150 230 L150 266"/>
+    <path d="M93 207 L68 232"/>
+    <path d="M70 150 L34 150"/>
+    <path d="M93 93 L68 68"/>
+    <path d="M150 70 L150 34"/>
+    <path d="M207 93 L232 68"/>
+  </g>
+  <circle cx="150" cy="150" r="70" fill="#FFD23F" stroke="#1B1B1B" stroke-width="7"/>
+  <circle cx="128" cy="140" r="8" fill="#1B1B1B"/>
+  <circle cx="172" cy="140" r="8" fill="#1B1B1B"/>
+  <path d="M120 168 Q150 194 180 168" fill="none" stroke="#1B1B1B" stroke-width="7" stroke-linecap="round"/>
+</svg>

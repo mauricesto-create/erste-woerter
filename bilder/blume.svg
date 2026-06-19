@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" role="img" aria-label="Blume">
+  <rect width="300" height="300" fill="#FFFFFF"/>
+  <path d="M150 140 L150 272" fill="none" stroke="#3FA34D" stroke-width="14" stroke-linecap="round"/>
+  <path d="M150 210 Q98 188 76 222 Q120 240 150 216 Z" fill="#3FA34D" stroke="#1B1B1B" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M150 232 Q202 210 224 244 Q180 262 150 238 Z" fill="#3FA34D" stroke="#1B1B1B" stroke-width="6" stroke-linejoin="round"/>
+  <g fill="#FF5C8A" stroke="#1B1B1B" stroke-width="6">
+    <circle cx="150" cy="60" r="33"/>
+    <circle cx="197" cy="93" r="33"/>
+    <circle cx="179" cy="148" r="33"/>
+    <circle cx="121" cy="148" r="33"/>
+    <circle cx="103" cy="93" r="33"/>
+  </g>
+  <circle cx="150" cy="110" r="34" fill="#FFD23F" stroke="#1B1B1B" stroke-width="6"/>
+</svg>
