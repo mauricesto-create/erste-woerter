@@ -120,10 +120,15 @@ body{
 /* ---------- Auswahl-Wörter ---------- */
 .choices{
   display:grid;
-  grid-template-columns:1fr 1fr;
+  grid-template-columns:repeat(3,1fr); /* Fallback – JS setzt die passende Spaltenzahl */
   gap:14px;
-  width:min(92vw,520px);
+  width:min(94vw,560px);
 }
+/* Container-Breite je nach Spaltenzahl */
+.choices.c2{width:min(90vw,400px);}
+.choices.c3{width:min(94vw,560px);}
+.choices.c4{width:min(96vw,700px);gap:10px;}
+.choices.c5{width:min(96vw,780px);gap:10px;}
 .choice{
   border:5px solid var(--ink);
   border-radius:22px;
@@ -148,9 +153,9 @@ body{
 .choice.wrong{background:var(--red)!important;color:#fff;animation:shake .4s;}
 .choice:disabled{cursor:default;}
 
-/* viele Wörter (7–10): etwas kompakter, damit alles gut passt */
-.choices.many{gap:10px;}
-.choices.many .choice{padding:16px 8px;font-size:clamp(18px,4.5vw,26px);}
+/* schmalere Spalten (4–5 nebeneinander): kompaktere Schrift, damit alles passt */
+.choices.c4 .choice{padding:18px 6px;font-size:clamp(16px,3.6vw,24px);}
+.choices.c5 .choice{padding:16px 4px;font-size:clamp(13px,3vw,20px);letter-spacing:0;}
 
 /* ---------- Gewonnen ---------- */
 .win-emoji{font-size:120px;animation:pop .5s;}

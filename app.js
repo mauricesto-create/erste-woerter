@@ -27,6 +27,8 @@
   var roundSize = 4;    // gewählte Anzahl Wörter
   var locked = false;   // sperrt Eingabe während Übergang
   var colorMode = "color"; // "color" = farbige Buttons, "white" = weiße Buttons
+  // Spalten pro Reihe je nach Wortanzahl (saubere Reihen)
+  var COLS = { 4: 2, 5: 3, 6: 3, 7: 4, 8: 4, 9: 3, 10: 5 };
 
   // ---------- Hilfsfunktionen ----------
   function shuffle(arr) {
@@ -131,10 +133,10 @@
 
   function renderChoices() {
     choicesEl.innerHTML = "";
-    // bei vielen Wörtern etwas kompakter darstellen
-    choicesEl.classList.toggle("many", roundWords.length > 6);
-    // weiße oder farbige Wort-Buttons
-    choicesEl.classList.toggle("plain", colorMode === "white");
+    // Spaltenzahl je nach Wortanzahl + weiß/farbig
+    var cols = COLS[roundWords.length] || 3;
+    choicesEl.className = "choices c" + cols + (colorMode === "white" ? " plain" : "");
+    choicesEl.style.gridTemplateColumns = "repeat(" + cols + ", 1fr)";
     roundWords.forEach(function (w) {
       var b = document.createElement("button");
       b.className = "choice";
