@@ -216,6 +216,10 @@ body{
 }
 .preview.show{display:block;}
 
+.filter-bar{display:flex;gap:10px;flex-wrap:wrap;width:min(92vw,520px);}
+.filter-bar .text-input{flex:1;min-width:150px;font-size:18px;padding:12px 14px;}
+.filter-bar select.text-input{cursor:pointer;background:#fff;}
+
 .word-list{display:flex;flex-direction:column;gap:10px;width:min(92vw,520px);}
 .word-row{
   display:flex;align-items:center;gap:12px;

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" role="img" aria-label="Tasse">
+  <rect width="300" height="300" fill="#FFFFFF"/>
+  <g fill="none" stroke="#C9C9C9" stroke-width="6" stroke-linecap="round">
+    <path d="M124 70 Q114 86 124 102"/>
+    <path d="M154 64 Q144 82 154 102"/>
+    <path d="M184 70 Q174 86 184 102"/>
+  </g>
+  <path d="M78 122 L222 122 L209 216 Q206 236 186 236 L114 236 Q94 236 91 216 Z" fill="#FF7043" stroke="#1B1B1B" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M222 140 Q264 140 264 176 Q264 212 214 206" fill="none" stroke="#1B1B1B" stroke-width="11" stroke-linecap="round"/>
+  <path d="M222 146 Q253 149 253 176 Q253 199 218 198" fill="none" stroke="#FF7043" stroke-width="6" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" role="img" aria-label="Mond">
+  <rect width="300" height="300" fill="#FFFFFF"/>
+  <path d="M192 48 Q40 150 192 252 Q150 150 192 48 Z" fill="#FFD23F" stroke="#1B1B1B" stroke-width="7" stroke-linejoin="round"/>
+  <circle cx="165" cy="120" r="11" fill="#EBC02E"/>
+  <circle cx="158" cy="180" r="8" fill="#EBC02E"/>
+  <circle cx="182" cy="155" r="6" fill="#EBC02E"/>
+</svg>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" role="img" aria-label="Uhr">
+  <rect width="300" height="300" fill="#FFFFFF"/>
+  <circle cx="150" cy="155" r="100" fill="#FFFFFF" stroke="#1B1B1B" stroke-width="8"/>
+  <g stroke="#1B1B1B" stroke-width="6" stroke-linecap="round">
+    <path d="M150 70 L150 88"/>
+    <path d="M235 155 L217 155"/>
+    <path d="M150 240 L150 222"/>
+    <path d="M65 155 L83 155"/>
+  </g>
+  <path d="M150 155 L150 100" stroke="#E53935" stroke-width="8" stroke-linecap="round"/>
+  <path d="M150 155 L196 178" stroke="#1B1B1B" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="150" cy="155" r="9" fill="#1B1B1B"/>
+</svg>

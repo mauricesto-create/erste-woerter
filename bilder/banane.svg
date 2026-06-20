@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" role="img" aria-label="Banane">
+  <rect width="300" height="300" fill="#FFFFFF"/>
+  <path d="M95 80 Q70 182 200 220 Q236 232 251 214 Q256 206 246 200 Q160 202 132 118 Q121 86 100 80 Q97 79 95 80 Z" fill="#FFD23F" stroke="#1B1B1B" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M96 82 L108 88" stroke="#6E5418" stroke-width="9" stroke-linecap="round"/>
+  <path d="M248 210 L246 200" stroke="#6E5418" stroke-width="8" stroke-linecap="round"/>
+</svg>

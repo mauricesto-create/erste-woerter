@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" role="img" aria-label="Maus">
+  <rect width="300" height="300" fill="#FFFFFF"/>
+  <circle cx="104" cy="112" r="42" fill="#B0B0B0" stroke="#1B1B1B" stroke-width="6"/>
+  <circle cx="196" cy="112" r="42" fill="#B0B0B0" stroke="#1B1B1B" stroke-width="6"/>
+  <circle cx="104" cy="112" r="22" fill="#FFC1D6"/>
+  <circle cx="196" cy="112" r="22" fill="#FFC1D6"/>
+  <path d="M214 192 Q262 206 250 160" fill="none" stroke="#1B1B1B" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="150" cy="168" r="72" fill="#BDBDBD" stroke="#1B1B1B" stroke-width="7"/>
+  <circle cx="127" cy="160" r="9" fill="#1B1B1B"/>
+  <circle cx="173" cy="160" r="9" fill="#1B1B1B"/>
+  <circle cx="150" cy="188" r="10" fill="#FF6F91" stroke="#1B1B1B" stroke-width="3"/>
+  <g stroke="#1B1B1B" stroke-width="3" stroke-linecap="round">
+    <path d="M150 190 L100 198"/><path d="M150 195 L104 212"/>
+    <path d="M150 190 L200 198"/><path d="M150 195 L196 212"/>
+  </g>
+</svg>

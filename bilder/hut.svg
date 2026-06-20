@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" role="img" aria-label="Hut">
+  <rect width="300" height="300" fill="#FFFFFF"/>
+  <ellipse cx="150" cy="202" rx="112" ry="26" fill="#3949AB" stroke="#1B1B1B" stroke-width="7"/>
+  <path d="M98 202 L98 96 Q98 80 150 80 Q202 80 202 96 L202 202 Z" fill="#3949AB" stroke="#1B1B1B" stroke-width="7" stroke-linejoin="round"/>
+  <rect x="98" y="164" width="104" height="24" fill="#FFD23F" stroke="#1B1B1B" stroke-width="4"/>
+</svg>

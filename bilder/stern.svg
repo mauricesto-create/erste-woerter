@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" role="img" aria-label="Stern">
+  <rect width="300" height="300" fill="#FFFFFF"/>
+  <path d="M150 45 L175 116 L250 118 L190 163 L212 235 L150 192 L88 235 L110 163 L50 118 L125 116 Z" fill="#FFD23F" stroke="#1B1B1B" stroke-width="7" stroke-linejoin="round"/>
+</svg>

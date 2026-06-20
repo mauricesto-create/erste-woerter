@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" role="img" aria-label="Buch">
+  <rect width="300" height="300" fill="#FFFFFF"/>
+  <rect x="58" y="80" width="184" height="140" rx="12" fill="#3F51B5" stroke="#1B1B1B" stroke-width="7"/>
+  <rect x="76" y="96" width="148" height="108" rx="6" fill="#FFFFFF" stroke="#1B1B1B" stroke-width="4"/>
+  <path d="M150 96 L150 204" stroke="#1B1B1B" stroke-width="5"/>
+  <g stroke="#9AA6E0" stroke-width="5" stroke-linecap="round">
+    <path d="M90 120 L136 120"/><path d="M90 140 L136 140"/><path d="M90 160 L136 160"/>
+    <path d="M164 120 L210 120"/><path d="M164 140 L210 140"/><path d="M164 160 L210 160"/>
+  </g>
+</svg>

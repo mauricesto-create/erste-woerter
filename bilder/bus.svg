@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" role="img" aria-label="Bus">
+  <rect width="300" height="300" fill="#FFFFFF"/>
+  <rect x="40" y="92" width="220" height="112" rx="22" fill="#FF7043" stroke="#1B1B1B" stroke-width="7"/>
+  <g fill="#CDEBFF" stroke="#1B1B1B" stroke-width="4">
+    <rect x="60" y="114" width="40" height="40" rx="6"/>
+    <rect x="110" y="114" width="40" height="40" rx="6"/>
+    <rect x="160" y="114" width="40" height="40" rx="6"/>
+  </g>
+  <rect x="210" y="114" width="38" height="72" rx="6" fill="#9ED2FF" stroke="#1B1B1B" stroke-width="4"/>
+  <path d="M40 178 L260 178" stroke="#1B1B1B" stroke-width="4"/>
+  <circle cx="95" cy="208" r="28" fill="#2B2B2B" stroke="#1B1B1B" stroke-width="6"/>
+  <circle cx="95" cy="208" r="10" fill="#D8D8D8"/>
+  <circle cx="205" cy="208" r="28" fill="#2B2B2B" stroke="#1B1B1B" stroke-width="6"/>
+  <circle cx="205" cy="208" r="10" fill="#D8D8D8"/>
+</svg>

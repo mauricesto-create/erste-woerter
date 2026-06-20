@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" role="img" aria-label="Brot">
+  <rect width="300" height="300" fill="#FFFFFF"/>
+  <path d="M52 178 Q52 118 110 108 Q150 101 190 108 Q248 118 248 178 Q248 210 216 210 L84 210 Q52 210 52 178 Z" fill="#D9A066" stroke="#1B1B1B" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M74 152 Q150 120 226 152" fill="none" stroke="#A86B33" stroke-width="6" stroke-linecap="round"/>
+  <g stroke="#A86B33" stroke-width="6" stroke-linecap="round">
+    <path d="M112 136 L96 162"/>
+    <path d="M150 131 L134 159"/>
+    <path d="M188 136 L172 162"/>
+  </g>
+</svg>

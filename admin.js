@@ -119,17 +119,54 @@
 
   function msg(t) { $("form-msg").textContent = t; }
 
+  // ---------- Filter ----------
+  function buildCatFilter(all) {
+    var sel = $("filter-cat");
+    var current = sel.value;
+    var cats = [];
+    var seen = {};
+    all.forEach(function (w) {
+      var c = w.kategorie || "";
+      if (c && !seen[c]) { seen[c] = true; cats.push(c); }
+    });
+    cats.sort();
+    sel.innerHTML = '<option value="">Alle Kategorien</option>';
+    cats.forEach(function (c) {
+      var o = document.createElement("option");
+      o.value = c; o.textContent = c;
+      sel.appendChild(o);
+    });
+    sel.value = (cats.indexOf(current) !== -1) ? current : "";
+  }
+
+  $("filter-text").addEventListener("input", render);
+  $("filter-cat").addEventListener("change", render);
+
   // ---------- Liste rendern ----------
   function render() {
-    var list = EWStore.get() || [];
-    $("count").textContent = list.length;
+    var all = EWStore.get() || [];
+    buildCatFilter(all);
+
+    var q = ($("filter-text").value || "").trim().toLowerCase();
+    var cat = $("filter-cat").value || "";
+    var list = all.filter(function (w) {
+      var okText = !q
+        || w.wort.toLowerCase().indexOf(q) !== -1
+        || (w.kategorie || "").toLowerCase().indexOf(q) !== -1;
+      var okCat = !cat || (w.kategorie || "") === cat;
+      return okText && okCat;
+    });
+
+    $("count").textContent = (list.length === all.length)
+      ? all.length
+      : (list.length + " von " + all.length);
 
     var box = $("list");
     box.innerHTML = "";
     if (list.length === 0) {
       var p = document.createElement("p");
       p.className = "empty";
-      p.textContent = "Noch keine Wörter.";
+      p.textContent = all.length ? "Keine Treffer." : "Noch keine Wörter.";
       box.appendChild(p);
     }
 
@@ -171,11 +208,11 @@
       box.appendChild(row);
     });
 
-    // Kategorie-Vorschläge
+    // Kategorie-Vorschläge (für das Formular) – aus allen Wörtern
     var seen = {};
     var dl = $("kat-list");
     dl.innerHTML = "";
-    list.forEach(function (w) {
+    all.forEach(function (w) {
       if (w.kategorie && !seen[w.kategorie]) {
         seen[w.kategorie] = true;
         var o = document.createElement("option");

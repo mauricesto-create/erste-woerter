@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" role="img" aria-label="Katze">
+  <rect width="300" height="300" fill="#FFFFFF"/>
+  <path d="M96 96 L80 44 L138 80 Z" fill="#9E9E9E" stroke="#1B1B1B" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M204 96 L220 44 L162 80 Z" fill="#9E9E9E" stroke="#1B1B1B" stroke-width="6" stroke-linejoin="round"/>
+  <circle cx="150" cy="160" r="82" fill="#9E9E9E" stroke="#1B1B1B" stroke-width="7"/>
+  <circle cx="121" cy="150" r="10" fill="#1B1B1B"/>
+  <circle cx="179" cy="150" r="10" fill="#1B1B1B"/>
+  <path d="M142 176 L158 176 L150 185 Z" fill="#FF8FB0" stroke="#1B1B1B" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M150 185 L150 193 M150 193 Q138 201 130 193 M150 193 Q162 201 170 193" fill="none" stroke="#1B1B1B" stroke-width="4" stroke-linecap="round"/>
+  <g stroke="#1B1B1B" stroke-width="4" stroke-linecap="round">
+    <path d="M96 170 L54 162"/><path d="M96 184 L54 190"/>
+    <path d="M204 170 L246 162"/><path d="M204 184 L246 190"/>
+  </g>
+</svg>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" role="img" aria-label="Schiff">
+  <rect width="300" height="300" fill="#FFFFFF"/>
+  <path d="M150 70 L150 162" stroke="#1B1B1B" stroke-width="7" stroke-linecap="round"/>
+  <path d="M150 78 L150 156 L94 156 Z" fill="#FFFFFF" stroke="#1B1B1B" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M158 86 L158 150 L210 150 Z" fill="#FFD23F" stroke="#1B1B1B" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M68 165 L232 165 L206 214 L94 214 Z" fill="#E53935" stroke="#1B1B1B" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M20 208 Q50 193 80 208 Q110 223 140 208 Q170 193 200 208 Q230 223 262 208 Q280 200 280 220 L280 250 L20 250 Z" fill="#7FC8FF" stroke="#1B1B1B" stroke-width="5" stroke-linejoin="round"/>
+</svg>

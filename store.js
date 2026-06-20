@@ -4,6 +4,8 @@
 (function () {
   "use strict";
   var KEY = "ew_words";
+  var VKEY = "ew_seed_version";
+  var SEED_VERSION = 2; // hochzählen, wenn neue Grundwörter ergänzt werden
 
   function uid() {
     return "w" + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
@@ -37,17 +39,36 @@
       .catch(function () { return []; });
   }
 
-  // Liste laden; falls noch nicht vorhanden, aus woerter.json (+ alt ew_custom) befüllen
+  // Liste laden; falls noch nicht vorhanden, aus woerter.json (+ alt ew_custom)
+  // befüllen. Existiert sie schon, werden bei einer höheren SEED_VERSION neue
+  // Grundwörter ergänzt (per Wort-Abgleich), ohne eigene Änderungen zu verlieren.
   function ensure() {
     return new Promise(function (resolve) {
-      var existing = get();
-      if (existing && existing.length) { resolve(existing); return; }
       fetchBase().then(function (base) {
-        var custom = [];
-        try { custom = JSON.parse(localStorage.getItem("ew_custom") || "[]"); } catch (e) {}
-        var seed = normalize(base.concat(custom));
-        set(seed);
-        resolve(seed);
+        var existing = get();
+
+        if (!existing || !existing.length) {
+          var custom = [];
+          try { custom = JSON.parse(localStorage.getItem("ew_custom") || "[]"); } catch (e) {}
+          var seed = normalize(base.concat(custom));
+          set(seed);
+          try { localStorage.setItem(VKEY, String(SEED_VERSION)); } catch (e) {}
+          resolve(seed);
+          return;
+        }
+
+        var storedV = parseInt(localStorage.getItem(VKEY) || "1", 10);
+        if (storedV < SEED_VERSION) {
+          var have = {};
+          existing.forEach(function (w) { have[String(w.wort).toUpperCase()] = true; });
+          var toAdd = normalize(base).filter(function (b) { return !have[b.wort]; });
+          if (toAdd.length) {
+            existing = existing.concat(toAdd);
+            set(existing);
+          }
+          try { localStorage.setItem(VKEY, String(SEED_VERSION)); } catch (e) {}
+        }
+        resolve(existing);
       });
     });
   }
@@ -57,6 +78,7 @@
     return fetchBase().then(function (base) {
       var seed = normalize(base);
       set(seed);
+      try { localStorage.setItem(VKEY, String(SEED_VERSION)); } catch (e) {}
       return seed;
     });
   }

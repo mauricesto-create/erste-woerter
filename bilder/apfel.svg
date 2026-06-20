@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" role="img" aria-label="Apfel">
+  <rect width="300" height="300" fill="#FFFFFF"/>
+  <path d="M150 82 Q152 56 168 53" fill="none" stroke="#7A4B22" stroke-width="9" stroke-linecap="round"/>
+  <path d="M168 60 Q206 44 216 78 Q180 90 167 66 Z" fill="#4CAF50" stroke="#1B1B1B" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M150 96 Q120 70 92 95 Q60 125 78 186 Q92 236 150 240 Q208 236 222 186 Q240 125 208 95 Q180 70 150 96 Z" fill="#E53935" stroke="#1B1B1B" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M104 130 Q98 162 112 188" fill="none" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" opacity="0.45"/>
+</svg>
