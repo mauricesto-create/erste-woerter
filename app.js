@@ -48,6 +48,12 @@
     screens[name].classList.add("active");
   }
 
+  // Anzeige: nur erster Buchstabe groß, Rest klein (z. B. "Fisch")
+  function titleCase(s) {
+    s = String(s || "");
+    return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
+  }
+
   function speak(text) {
     try {
       if (!("speechSynthesis" in window)) return;
@@ -180,7 +186,7 @@
     roundWords.forEach(function (w) {
       var b = document.createElement("button");
       b.className = "choice";
-      b.textContent = (w.wort || "").toUpperCase();
+      b.textContent = titleCase(w.wort);
       b.addEventListener("click", function () { onChoose(w.wort, b); });
       choicesEl.appendChild(b);
     });

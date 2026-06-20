@@ -9,6 +9,12 @@
 
   function $(id) { return document.getElementById(id); }
 
+  // Anzeige: nur erster Buchstabe groß, Rest klein (z. B. "Fisch")
+  function titleCase(s) {
+    s = String(s || "");
+    return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
+  }
+
   var login = $("login");
   var panel = $("panel");
   var imgData = "";       // neu gewähltes Bild (Data-URI) oder ""
@@ -85,7 +91,7 @@
     if (!item) return;
     editId = id;
     imgData = "";
-    $("f-wort").value = item.wort;
+    $("f-wort").value = titleCase(item.wort);
     $("f-kat").value = item.kategorie || "";
     $("preview").src = item.bild;
     $("preview").classList.add("show");
@@ -135,7 +141,7 @@
       img.src = w.bild; img.className = "thumb"; img.alt = w.wort;
 
       var name = document.createElement("span");
-      name.className = "word-name"; name.textContent = w.wort;
+      name.className = "word-name"; name.textContent = titleCase(w.wort);
 
       var cat = document.createElement("span");
       cat.className = "word-cat"; cat.textContent = w.kategorie || "";
