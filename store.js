@@ -1,91 +1,109 @@
-// Gemeinsamer Wort-Speicher (localStorage), genutzt von Spiel und Verwaltung.
-// Beim ersten Start wird die Liste aus woerter.json (plus evtl. alter
-// ew_custom-Liste) befüllt; danach sind ALLE Wörter voll bearbeitbar.
+// Cloud-Wortspeicher (Firestore). Echtzeit-Synchronisation über alle Geräte.
+// Bilder werden als verkleinerte Data-URI direkt im Dokument gespeichert.
 (function () {
   "use strict";
-  var KEY = "ew_words";
-  var VKEY = "ew_seed_version";
-  var SEED_VERSION = 2; // hochzählen, wenn neue Grundwörter ergänzt werden
 
-  function uid() {
-    return "w" + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+  var COL = "woerter";
+  var db = window.EWDB;
+
+  var cache = [];
+  var listeners = [];
+  var seeding = false;
+  var readyOnce = false;
+  var resolveReady;
+  var ready = new Promise(function (res) { resolveReady = res; });
+
+  function up(s) { return String(s || "").toUpperCase(); }
+
+  function mapDoc(d) {
+    var x = d.data() || {};
+    return { id: d.id, wort: x.wort || "", bild: x.bild || "", kategorie: x.kategorie || "" };
   }
 
-  function get() {
-    try { return JSON.parse(localStorage.getItem(KEY) || "null"); }
-    catch (e) { return null; }
+  function emit() {
+    listeners.forEach(function (f) { try { f(cache); } catch (e) {} });
   }
 
-  function set(list) {
-    localStorage.setItem(KEY, JSON.stringify(list || []));
+  function subscribe(cb) {
+    listeners.push(cb);
+    cb(cache); // sofort mit aktuellem Stand
+    return function () { listeners = listeners.filter(function (f) { return f !== cb; }); };
   }
 
-  function normalize(list) {
-    return (list || [])
-      .filter(function (w) { return w && w.wort && w.bild; })
-      .map(function (w) {
-        return {
-          id: w.id || uid(),
-          wort: String(w.wort).toUpperCase(),
-          bild: w.bild,
-          kategorie: w.kategorie || ""
-        };
-      });
-  }
-
-  function fetchBase() {
-    return fetch("woerter.json", { cache: "no-store" })
+  // Beim allerersten Mal (leere Sammlung) die 28 Grundwörter aus woerter.json anlegen.
+  // Feste Dokument-IDs (b0..bN) => auch bei gleichzeitigem Seeden keine Duplikate.
+  function seedBase() {
+    if (seeding) return;
+    seeding = true;
+    fetch("woerter.json", { cache: "no-store" })
       .then(function (r) { return r.json(); })
-      .catch(function () { return []; });
+      .catch(function () { return []; })
+      .then(function (base) {
+        var batch = db.batch();
+        base.forEach(function (w, i) {
+          batch.set(db.collection(COL).doc("b" + i), {
+            wort: up(w.wort), bild: w.bild, kategorie: w.kategorie || "", created: i
+          });
+        });
+        return batch.commit();
+      })
+      .catch(function (e) { console.warn("Seed fehlgeschlagen:", e); });
   }
 
-  // Liste laden; falls noch nicht vorhanden, aus woerter.json (+ alt ew_custom)
-  // befüllen. Existiert sie schon, werden bei einer höheren SEED_VERSION neue
-  // Grundwörter ergänzt (per Wort-Abgleich), ohne eigene Änderungen zu verlieren.
-  function ensure() {
-    return new Promise(function (resolve) {
-      fetchBase().then(function (base) {
-        var existing = get();
+  db.collection(COL).orderBy("created").onSnapshot(
+    function (snap) {
+      cache = snap.docs.map(mapDoc);
+      emit();
+      if (!readyOnce) { readyOnce = true; resolveReady(cache); }
+      if (snap.empty && !seeding) { seedBase(); }
+    },
+    function (err) {
+      console.warn("Firestore-Fehler:", err && err.code, err && err.message);
+      if (!readyOnce) { readyOnce = true; resolveReady(cache); }
+    }
+  );
 
-        if (!existing || !existing.length) {
-          var custom = [];
-          try { custom = JSON.parse(localStorage.getItem("ew_custom") || "[]"); } catch (e) {}
-          var seed = normalize(base.concat(custom));
-          set(seed);
-          try { localStorage.setItem(VKEY, String(SEED_VERSION)); } catch (e) {}
-          resolve(seed);
-          return;
-        }
+  function add(w) {
+    return db.collection(COL).add({
+      wort: up(w.wort), bild: w.bild || "", kategorie: w.kategorie || "", created: Date.now()
+    });
+  }
 
-        var storedV = parseInt(localStorage.getItem(VKEY) || "1", 10);
-        if (storedV < SEED_VERSION) {
-          var have = {};
-          existing.forEach(function (w) { have[String(w.wort).toUpperCase()] = true; });
-          var toAdd = normalize(base).filter(function (b) { return !have[b.wort]; });
-          if (toAdd.length) {
-            existing = existing.concat(toAdd);
-            set(existing);
-          }
-          try { localStorage.setItem(VKEY, String(SEED_VERSION)); } catch (e) {}
-        }
-        resolve(existing);
+  function update(id, w) {
+    var data = { wort: up(w.wort), kategorie: w.kategorie || "" };
+    if (w.bild) data.bild = w.bild; // Bild nur ersetzen, wenn ein neues gewählt wurde
+    return db.collection(COL).doc(id).update(data);
+  }
+
+  function remove(id) {
+    return db.collection(COL).doc(id).delete();
+  }
+
+  function resetAll() {
+    return db.collection(COL).get().then(function (snap) {
+      var batch = db.batch();
+      snap.docs.forEach(function (d) { batch.delete(d.ref); });
+      return batch.commit();
+    }).then(function () { seeding = false; seedBase(); });
+  }
+
+  function importMany(list) {
+    var batch = db.batch();
+    (list || []).forEach(function (w) {
+      if (!w || !w.wort || !w.bild) return;
+      batch.set(db.collection(COL).doc(), {
+        wort: up(w.wort), bild: w.bild, kategorie: w.kategorie || "", created: Date.now()
       });
     });
-  }
-
-  // Komplett auf die Grundwörter (woerter.json) zurücksetzen – lokale Änderungen verwerfen
-  function reset() {
-    return fetchBase().then(function (base) {
-      var seed = normalize(base);
-      set(seed);
-      try { localStorage.setItem(VKEY, String(SEED_VERSION)); } catch (e) {}
-      return seed;
-    });
+    return batch.commit();
   }
 
   window.EWStore = {
-    KEY: KEY, uid: uid, get: get, set: set,
-    normalize: normalize, ensure: ensure, reset: reset
+    subscribe: subscribe,
+    add: add, update: update, remove: remove,
+    resetAll: resetAll, importMany: importMany,
+    ready: ready,
+    current: function () { return cache; }
   };
 
   // Regel: nur EXTERNE Links öffnen in einem neuen Tab (interne Navigation bleibt im Tab)

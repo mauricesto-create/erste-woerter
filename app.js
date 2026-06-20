@@ -28,6 +28,7 @@
   var colorMode = "color";     // "color" | "white"
   var hasRound = false;        // ist eine Runde aktiv?
   var finished = false;        // Runde gewonnen?
+  var dataReady = false;       // sind die Wörter aus der Cloud geladen?
   // Spalten pro Reihe je nach Wortanzahl (saubere Reihen)
   var COLS = { 4: 2, 5: 3, 6: 3, 7: 4, 8: 4, 9: 3, 10: 5 };
 
@@ -113,6 +114,13 @@
     var max = Math.min(10, pool.length);
     countButtons.innerHTML = "";
 
+    if (pool.length === 0) {
+      startHint.textContent = dataReady
+        ? "Noch keine Wörter. Bitte im Admin welche hinzufügen."
+        : "Wird geladen…";
+      startBtn.disabled = true;
+      return;
+    }
     if (pool.length < 4) {
       startHint.textContent = "Es werden mindestens 4 Wörter benötigt. Bitte im Admin weitere hinzufügen.";
       startBtn.disabled = true;
@@ -241,8 +249,16 @@
 
   try { colorMode = localStorage.getItem("ew_color") || "color"; } catch (e) {}
   buildColorButtons();
-  EWStore.ensure().then(function (list) {
+  startHint.textContent = "Wird geladen…";
+  startBtn.disabled = true;
+
+  // Echtzeit aus der Cloud: aktualisiert den Wort-Pool live
+  EWStore.subscribe(function (list) {
     pool = list;
+    if (dataReady && screens.start.classList.contains("active")) buildCountButtons();
+  });
+  EWStore.ready.then(function () {
+    dataReady = true;
     buildCountButtons();
     renderRoute(); // Ansicht aus dem Hash herstellen (normalerweise Start)
   });
